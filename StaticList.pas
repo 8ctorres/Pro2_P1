@@ -42,7 +42,7 @@ interface
         Salidas: La lista Vacía
         Postcondición: La lista queda inicializada y no contiene elementos  *)
 	function isEmptyList(L:tList): boolean;
-    (*  Objetivo: Determina si la lista está vacía
+    (*  Objetivo: Comprueba si la lista está vacía
         Entrada: Una lista
         Salida: Un boolean TRUE si está vacía y FALSE si no lo está *)
 	function first(L:tList):tPosL;
@@ -61,17 +61,30 @@ interface
         Salida: La posición del elemento siguiente
         Precondición: La posición indicada es una posición válida*)
 	function previous(p:tPosL; L:tList):tPosL;
+    (*  Objetivo: Devuelve la posición en la lista del elemento anterior al indicado
+        Entrada: Una Lista
+        Salida: La posición del elemento anterior
+        Precondición: La posición indicada es una posición válida*)
 	function insertItem(d:tItem;p:tPosL; var L : tList): boolean;
+    (*	Objetivo: Inserta un par partido-votos en una lista en la posicion especificada
+    	Entrada: Un par partido-votos, una posicion y una lista
+	Salida: La lista alterada y un boolean TRUE si la insercion tuvo exito o FALSE en contraparte
+	Precondicion: lista inicializada, posicion valida o NULL.
+	Postcondicion: Si no se especificó posición (NULL) el elemento es añadido al final de la lista. *)
 	procedure deleteAtPosition(p:tPosL; var L : tList);
+    (*	Objetivo: Elimina el elemento de la lista que se encuentra en la posicion designada
+    	Entrada: Una posicion y una lista
+	Salida: La lista pasada por referencia alterada
+	Preacondicion: la posicion debe ser valida  *)
 	function getItem(p:tPosL; L: tList):tItem;
 	procedure updateVotes(d: tNumVotes; p: tPosL; var L:tList);
 	function findItem(d:tPartyName; L:tList):tPosL; 
-	(*Objetivo: Encuentra el primer partido politico en una lista que coincida
-		con el partido buscado.
+	(*Objetivo: Encuentra el primer partido que coincida con el partido buscado y devuelve
+          su posición.
 	  Entradas: Un partido político y una lista
-	  Salidas: Una variable de posicion
-	  Precondicion: La lista es no vacia
-	  Poscondicion: Si el partido no se encuentra en la lista la funcion devolvera NULL*)
+	  Salidas: Una variable de posición
+	  Precondicion: La lista es no vacía
+	  Poscondicion: Si el partido no se encuentra en la lista la función devolverá NULL*)
 	
 implementation
 
@@ -82,7 +95,7 @@ implementation
 		
 	function isEmptyList (L: tList): boolean;
 		begin
-				isEmptyList := (L.fin = NULL);
+			isEmptyList := (L.fin = NULL);
 		end;
 
 	function first (L:tList): tPosL;
@@ -131,7 +144,7 @@ implementation
 					insertItem:=TRUE;
 				end;
 		end;
-		
+		{PROBLEMA DE TABULACION}
 		procedure deleteAtPosition(p: tPosL; var L:tList);
 			var i: tPosL;
 			begin
