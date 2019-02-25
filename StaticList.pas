@@ -42,7 +42,7 @@ interface
         Salidas: La lista Vacía
         Postcondición: La lista queda inicializada y no contiene elementos  *)
 	function isEmptyList(L:tList): boolean;
-    (*  Objetivo: Determina si la lista está vacía
+    (*  Objetivo: Comprueba si la lista está vacía
         Entrada: Una lista
         Salida: Un boolean TRUE si está vacía y FALSE si no lo está *)
 	function first(L:tList):tPosL;
@@ -89,11 +89,12 @@ interface
 		Precondición: La posición indicada es una posición válida en la lista
 		Postcondición: El orden de los elementos de la lista no se ve modificado*)
 	function findItem(d:tPartyName; L:tList):tPosL; 
-	(*	Objetivo: Encuentra el primer partido politico en una lista que coincida con el partido buscado.
-	  	Entradas: Un nombre de partido político y una lista
-	  	Salidas: Una variable de posicion
-	  	Precondicion: La lista es no vacia
-	  	Poscondicion: Si el partido no se encuentra en la lista la funcion devuelve NULL*)
+	(*Objetivo: Encuentra el primer partido que coincida con el partido buscado y devuelve
+          su posición.
+	  Entradas: Un partido político y una lista
+	  Salidas: Una variable de posición
+	  Precondicion: La lista es no vacía
+	  Poscondicion: Si el partido no se encuentra en la lista la función devolverá NULL*)
 	
 implementation
 
@@ -104,7 +105,7 @@ implementation
 		
 	function isEmptyList (L: tList): boolean;
 		begin
-				isEmptyList := (L.fin = NULL);
+			isEmptyList := (L.fin = NULL);
 		end;
 
 	function first (L:tList): tPosL;
@@ -153,7 +154,7 @@ implementation
 					insertItem:=TRUE;
 				end;
 		end;
-		
+		{PROBLEMA DE TABULACION}
 		procedure deleteAtPosition(p: tPosL; var L:tList);
 			var i: tPosL;
 			begin
