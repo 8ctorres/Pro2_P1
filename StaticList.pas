@@ -89,12 +89,11 @@ interface
 		Precondición: La posición indicada es una posición válida en la lista
 		Postcondición: El orden de los elementos de la lista no se ve modificado*)
 	function findItem(d:tPartyName; L:tList):tPosL; 
-	(*Objetivo: Encuentra el primer partido que coincida con el partido buscado y devuelve
-          su posición.
-	  Entradas: Un partido político y una lista
-	  Salidas: Una variable de posición
-	  Precondicion: La lista es no vacía
-	  Poscondicion: Si el partido no se encuentra en la lista la función devolverá NULL*)
+	(*	Objetivo: Encuentra el primer partido que coincida con el partido buscado y devuelve su posición.
+		Entradas: Un partido político y una lista
+		Salidas: Una variable de posición
+		Precondicion: La lista es no vacía
+		Poscondicion: Si el partido no se encuentra en la lista la función devolverá NULL*)
 	
 implementation
 
@@ -154,7 +153,7 @@ implementation
 					insertItem:=TRUE;
 				end;
 		end;
-		{PROBLEMA DE TABULACION}
+
 		procedure deleteAtPosition(p: tPosL; var L:tList);
 			var i: tPosL;
 			begin
