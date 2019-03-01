@@ -1,0 +1,57 @@
+********************
+01 N: party B
+
+* New: party B
+********************
+02 N: party N
+
+* New: party N
+********************
+03 N: party Party1
+
+* New: party Party1
+********************
+04 S: totalvoters 10
+
+Party B numvotes 0 (0.00%)
+Party N numvotes 0
+Party Party1 numvotes 0 (0.00%)
+Participation: 0 votes from 10 voters (0.00%)
+********************
+05 N: party Party2
+
+* New: party Party2
+********************
+06 S: totalvoters 10
+
+Party B numvotes 0 (0.00%)
+Party N numvotes 0
+Party Party1 numvotes 0 (0.00%)
+Party Party2 numvotes 0 (0.00%)
+Participation: 0 votes from 10 voters (0.00%)
+********************
+07 N: party Party3
+
+* New: party Party3
+********************
+08 S: totalvoters 10
+
+Party B numvotes 0 (0.00%)
+Party N numvotes 0
+Party Party1 numvotes 0 (0.00%)
+Party Party2 numvotes 0 (0.00%)
+Party Party3 numvotes 0 (0.00%)
+Participation: 0 votes from 10 voters (0.00%)
+********************
+09 N: party Party2
+
++ Error: New not possible
+********************
+10 S: totalvoters 10
+
+Party B numvotes 0 (0.00%)
+Party N numvotes 0
+Party Party1 numvotes 0 (0.00%)
+Party Party2 numvotes 0 (0.00%)
+Party Party3 numvotes 0 (0.00%)
+Participation: 0 votes from 10 voters (0.00%)
