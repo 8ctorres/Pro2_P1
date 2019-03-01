@@ -1,22 +1,21 @@
 Uses sysutils, StaticList;
 
+
+
 procedure Pnew(partyOrVoters:string; var List:tList);
 var d:tItem;
 begin
-   if findItem(partyOrVoters,List) = NULL then begin
-      d.partyname := partyOrVoters;
-      d.numvotes := 0;
-      insertItem(d,NULL,List);
-      writeln('* New: party ',partyOrVoters);
-   end
+   d.partyname := partyOrVoters;
+   d.numvotes := 0;
+   if (findItem(partyOrVoters,List) = NULL) and insertItem(d,NULL,List) then writeln('* New: party ',partyOrVoters)
    else writeln('+ Error: New not possible'); 
 end;
 
 (**********************************************************)
 
-procedure Vote(partyOrVoters: string;var List:tList);
+procedure Vote(partyOrVoters: string ;var List: tList);
 var
-pos:tPos;
+pos: tPosL;
 nvotes:tNumVotes;
 begin
    pos := findItem(partyOrVoters,List);
@@ -36,7 +35,7 @@ end;
 
 procedure Stats(partyOrVoters:string; var List:tList);
 var
-pos: tPos;
+pos: tPosL;
 item: tItem;
 totalvotes,totalvalidvotes: tNumVotes;
 begin
@@ -46,17 +45,17 @@ begin
    pos:= first(List);
 
    while pos<>NULL do begin
-      item:= getItem(pos,List)
+      item:= getItem(pos,List);
       totalvotes:= totalvotes + item.numvotes;
       pos:= next(pos, List);
    end;
 
-   totalvalidvotes := totalvotes - getItem(NULLVOTE,List).numvotes;
+   totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes;
 
    pos:= first(List);
    item := getItem(pos,List);
 
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes:2:2), '%)');
+   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
 
    pos:= next(pos,List);
    item := getItem(pos,List);
@@ -68,10 +67,10 @@ begin
    while pos<>NULL do begin
       item:= getItem(pos,List);
       writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
-      pos:= next(List);
+      pos:= next(pos,List);
    end;
-
-   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/partyOrVoters):2:2 ,'%)')
+   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)
+	   ):2:2 ,'%)')
 end;
 
 (**********************************************************)
@@ -111,7 +110,7 @@ BEGIN
       
       {Show the task --> Change by the adequate operation}
 
-      createEmptyList(List;
+      createEmptyList(List);
 
       case task[1] of
          'N': begin
