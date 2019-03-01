@@ -119,10 +119,7 @@ implementation
 		
 	function previous (p: tPosL; L: tList): tPosL;
 		begin
-			if p=1 then
-				previous:= NULL
-			else
-				previous:= p-1;
+			previous:= p-1;
 		end;
 		
 	function next (p: tPosL; L: tList): tPosL;
