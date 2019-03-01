@@ -35,23 +35,19 @@ end;
 
 procedure Stats(partyOrVoters:string; var List:tList);
 var
-pos,ult: tPosL;
+pos: tPosL;
 item: tItem;
 totalvotes,totalvalidvotes: tNumVotes;
 begin
    totalvotes:= 0;
    totalvalidvotes:= 0;
    pos:= first(List);
-   ult:= last(List);
-   {----}
-   item:= getItem(pos,List);
-   totalvotes:= totalvotes + item.numvotes;
-   {----}
-   repeat
-      pos:= next(pos, List);
+
+   while pos<>NULL do begin
       item:= getItem(pos,List);
       totalvotes:= totalvotes + item.numvotes;
-   until pos=ult;
+      pos:= next(pos, List);
+   end;
 
    totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes;
 
