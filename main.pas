@@ -35,26 +35,29 @@ end;
 
 procedure Stats(partyOrVoters:string; var List:tList);
 var
-pos: tPosL;
+pos,ult: tPosL;
 item: tItem;
 totalvotes,totalvalidvotes: tNumVotes;
 begin
    totalvotes:= 0;
    totalvalidvotes:= 0;
-
    pos:= first(List);
-
-   while pos<>NULL do begin
+   ult:= last(List);
+   {----}
+   item:= getItem(pos,List);
+   totalvotes:= totalvotes + item.numvotes;
+   {----}
+   repeat
+      pos:= next(pos, List);
       item:= getItem(pos,List);
       totalvotes:= totalvotes + item.numvotes;
-      pos:= next(pos, List);
-   end;
+   until pos=ult;
 
    totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes;
 
    pos:= first(List);
    item := getItem(pos,List);
-
+   writeln(totalvalidvotes,totalvotes); {Writeln de prueba DIVISION POR CERO}
    writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
 
    pos:= next(pos,List);
@@ -69,8 +72,7 @@ begin
       writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
       pos:= next(pos,List);
    end;
-   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)
-	   ):2:2 ,'%)')
+   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
 end;
 
 (**********************************************************)
@@ -98,6 +100,8 @@ BEGIN
       halt(1)
    END;
 
+   createEmptyList(List);
+   
    WHILE NOT EOF(usersFile) DO
    BEGIN
       { Read a line in the file and save it in different variables}
@@ -110,8 +114,7 @@ BEGIN
       
       {Show the task --> Change by the adequate operation}
 
-      createEmptyList(List);
-
+      
       case task[1] of
          'N': begin
                writeln(code, ' ',task, ': party ', partyOrVoters);
