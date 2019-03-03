@@ -27,7 +27,7 @@ begin
       nvotes := getItem(pos,List).numvotes;
       nvotes:= nvotes+1;
       updateVotes(nvotes,pos,List);
-      writeln('* Vote: party ',partyOrVoters,' numvotes ',nvotes);
+      if partyOrVoters<>NULLVOTE then writeln('* Vote: party ',partyOrVoters,' numvotes ',nvotes); (*Without this if statement, the recursive call to vote when adding a NULL vote, would print an unnecesary line to the console.*)
    end;
 end;
 
@@ -53,19 +53,19 @@ begin
 
    pos:= first(List);
    item := getItem(pos,List);
-   writeln(totalvalidvotes,totalvotes); {Writeln de prueba DIVISION POR CERO}
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
+   if totalvalidvotes=0 then totalvalidvotes:=1; (*This is to avoid dividing by zero in the next line. The division returns 0 because item.numvotes = 0 for all parties*)
+   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTES*)
 
    pos:= next(pos,List);
    item := getItem(pos,List);
 
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);
+   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTES*)
 
    pos:= next(pos,List);
 
    while pos<>NULL do begin
       item:= getItem(pos,List);
-      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)');
+      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints all parties on the list*)
       pos:= next(pos,List);
    end;
    writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
@@ -122,7 +122,7 @@ BEGIN
                Vote(partyOrVoters,List);
                end;
          'S': begin
-               writeln(code, ' ',task, ': totalvotes ', partyOrVoters);
+               writeln(code, ' ',task, ': totalvoters ', partyOrVoters);
                Stats(partyOrVoters,List);
                end;
          otherwise
