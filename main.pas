@@ -113,16 +113,22 @@ BEGIN
       
       case task[1] of
          'N': begin
+               writeln('********************');
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Pnew(partyOrVoters,List);
                end;
 
          'V': begin
+               writeln('********************');
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Vote(partyOrVoters,List);
                end;
          'S': begin
+               writeln('********************');
                writeln(code, ' ',task, ': totalvoters ', partyOrVoters);
+               writeln;
                Stats(partyOrVoters,List);
                end;
          otherwise
