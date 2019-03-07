@@ -43,13 +43,12 @@ begin
    totalvalidvotes:= 0;
    pos:= first(List);
 
-   while pos<>NULL do begin
-      item:= getItem(pos,List);
-      totalvotes:= totalvotes + item.numvotes;
+   while pos<>NULL do begin (*Iterates around the list adding together all votes stored in every item*)
+      totalvotes:= totalvotes + getItem(pos,List).numvotes;
       pos:= next(pos, List);
    end;
 
-   totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes;
+   totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes; (*The conjugated function call returns the number of votes that belong to NULL*)
 
    pos:= first(List);
    item := getItem(pos,List);
@@ -61,14 +60,14 @@ begin
 
    writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTES*)
 
-   pos:= next(pos,List);
+   pos:= next(pos,List); 
 
    while pos<>NULL do begin
       item:= getItem(pos,List);
       writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints all parties on the list*)
       pos:= next(pos,List);
    end;
-   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters:0, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
+   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
 end;
 
 (**********************************************************)
@@ -110,9 +109,10 @@ BEGIN
       
       {Show the task --> Change by the adequate operation}
 
+      writeln('********************');  {Order Separator}
       
       case task[1] of
-         'N': begin
+         'N': begin 
                writeln(code, ' ',task, ': party ', partyOrVoters);
                Pnew(partyOrVoters,List);
                end;
