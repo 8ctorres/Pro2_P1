@@ -1,0 +1,16 @@
+()
+( party3 numVotes 0)
+( party1 numVotes 0 party3 numVotes 0)
+( party1 numVotes 0 party3 numVotes 0 party5 numVotes 0)
+( party1 numVotes 0 party2 numVotes 0 party3 numVotes 0 party5 numVotes 0)
+( party1 numVotes 0 party2 numVotes 0 party3 numVotes 0 party4 numVotes 0 party5 numVotes 0)
+party33 Not found
+party3
+party3
+( party1 numVotes 0 party2 numVotes 0 party3 numVotes 1 party4 numVotes 0 party5 numVotes 0)
+( party1 numVotes 0 party3 numVotes 1 party4 numVotes 0 party5 numVotes 0)
+( party1 numVotes 0 party3 numVotes 1 party5 numVotes 0)
+( party3 numVotes 1 party5 numVotes 0)
+( party3 numVotes 1)
+()
+( party4 numVotes 0)
