@@ -89,7 +89,7 @@ begin
 end;
 
 (**********************************************************)
-procedure illegalize(partyOrVoters : string; List : tList);
+procedure illegalize(partyOrVoters : string; var List : tList);
 var
    pos : tPosL;
    pnull: tPosL;
@@ -102,7 +102,8 @@ begin
       votesNull := getItem(pNull,List).numvotes;
       votesNull := votesNull + getItem(findItem(partyOrVoters,List),List).numvotes;
       updateVotes(votesNull, pNull ,List);
-      deleteAtPosition(pos,List);
+      deleteAtPosition(pos, List);
+      writeln('* Illegalize: party ',partyOrVoters);
    end;
 end;
 (**********************************************************)
