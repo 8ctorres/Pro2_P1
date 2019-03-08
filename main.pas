@@ -3,6 +3,13 @@ Uses sysutils, StaticList;
 
 
 procedure Pnew(partyOrVoters:string; var List:tList);
+(*
+Goal: Creates a new political party on the list
+Input: The name of the new party and the list of parties
+Output: The list with the new party added
+Precondition : The list has to be non-empty
+Postcondition: If the party already exists, the list remains unchanged and an error message is printed out to the console
+*)
 var d:tItem;
 begin
    d.partyname := partyOrVoters;
@@ -13,55 +20,63 @@ end;
 
 (**********************************************************)
 
-procedure Vote(partyOrVoters: string ;var List: tList);
+procedure Vote(partyOrVoters: string; var totalvotes: tNumVotes;var List: tList);
+(*
+Goal: Adds an specified amount of votes to the given political party
+Inputs: The name of the party and the list of parties
+Output: The list with the added vote to the party
+Precondition : The list has to be non-empty
+Postcondition: If the especified party does not exist on the list, the list remains unchanged and an error message is printed out to the console
+*)
 var
 pos: tPosL;
 nvotes:tNumVotes;
 begin
+   totalvotes:= totalvotes+1;
    pos := findItem(partyOrVoters,List);
    if pos=NULL then begin 
       writeln('+ Error: Vote not possible. Party ',partyOrVoters,' not found. NULLVOTE');
-      Vote(NULLVOTE,List);
+      pos:= findItem(NULLVOTE,List);
+      nvotes := getItem(pos,List).numvotes; 
+      nvotes:= nvotes+1;
+      updateVotes(nvotes,pos,List);
       end
    else begin
       nvotes := getItem(pos,List).numvotes;
       nvotes:= nvotes+1;
       updateVotes(nvotes,pos,List);
-      if partyOrVoters<>NULLVOTE then writeln('* Vote: party ',partyOrVoters,' numvotes ',nvotes); (*Without this if statement, the recursive call to vote when adding a NULL vote, would print an unnecesary line to the console.*)
+      writeln('* Vote: party ',partyOrVoters,' numvotes ',nvotes);
    end;
 end;
 
 (**********************************************************)
 
-procedure Stats(partyOrVoters:string; var List:tList);
+procedure Stats(partyOrVoters:string; var totalvotes:tNumVotes; var List:tList);
 (*
-
+Goal: Outputs statistics of the votes. Shows a count of blank votes, null votes, votes for each party and participation in %
+Inputs: Total number of voters in the electoral list, and the List with Parties and number of votes
+Output: Does not modify anything, just writes the statistics to the console
+Precondition: Parties BLANKVOTE (B) and NULLVOTE (N) must exist
 *)
 var
 pos: tPosL;
 item: tItem;
-totalvotes,totalvalidvotes: tNumVotes;
+totalvalidvotes: tNumVotes;
 begin
-   totalvotes:= 0;
    totalvalidvotes:= 0;
    pos:= first(List);
-
-   while pos<>NULL do begin (*Iterates around the list adding together all votes stored in every item*)
-      totalvotes:= totalvotes + getItem(pos,List).numvotes;
-      pos:= next(pos, List);
-   end;
 
    totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes; (*The conjugated function call returns the number of votes that belong to NULL*)
 
    pos:= first(List);
    item := getItem(pos,List);
    if totalvalidvotes=0 then totalvalidvotes:=1; (*This is to avoid dividing by zero in the next line. The division returns 0 because item.numvotes = 0 for all parties*)
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTES*)
+   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTE*)
 
    pos:= next(pos,List);
    item := getItem(pos,List);
 
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTES*)
+   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTE*)
 
    pos:= next(pos,List); 
 
@@ -74,6 +89,23 @@ begin
 end;
 
 (**********************************************************)
+procedure illegalize(partyOrVoters : string; List : tList);
+var
+   pos : tPosL;
+   pnull: tPosL;
+   votesNull : tNumVotes;
+begin
+   pos := findItem(partyOrVoters,List);
+   if (partyOrVoters = NULLVOTE) or (partyOrVoters = BLANKVOTE) or (pos = NULL) then writeln('+ Error: Illegalize not possible')
+   else begin
+      pNull := findItem(NULLVOTE,List);
+      votesNull := getItem(pNull,List).numvotes;
+      votesNull := votesNull + getItem(findItem(partyOrVoters,List),List).numvotes;
+      updateVotes(votesNull, pNull ,List);
+      deleteAtPosition(pos,List);
+   end;
+end;
+(**********************************************************)
 
 procedure readTasks(filename:string);
 	
@@ -84,7 +116,9 @@ VAR
    task          : string;
    partyOrVoters : string;
 
-   List: tList; (*Lista para almacenar todos los datos*)
+   List: tList; (*A list that holds all the data (names of parties and their number of votes)*)
+   totalvotes: tNumVotes; (*A variable that holds the total number of votes*)
+   
 
 BEGIN
    {process the operation file named filename}
@@ -99,6 +133,7 @@ BEGIN
    END;
 
    createEmptyList(List);
+   totalvotes:= 0;
    
    WHILE NOT EOF(usersFile) DO
    BEGIN
@@ -117,21 +152,29 @@ BEGIN
       case task[1] of
          'N': begin 
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Pnew(partyOrVoters,List);
                end;
 
          'V': begin
                writeln(code, ' ',task, ': party ', partyOrVoters);
-               Vote(partyOrVoters,List);
+               writeln;
+               Vote(partyOrVoters,totalvotes,List);
                end;
          'S': begin
                writeln(code, ' ',task, ': totalvoters ', partyOrVoters);
-               Stats(partyOrVoters,List);
+               writeln;
+               Stats(partyOrVoters,totalvotes,List);
+               end;
+         'I': begin
+               writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
+               Illegalize(partyOrVoters,List);
+
                end;
          otherwise
       end;
 
-      writeln;
    
   END;
    Close(usersFile);

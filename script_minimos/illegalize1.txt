@@ -1,8 +1,0 @@
-01 N N
-02 N B
-03 N Party1
-04 N Party2
-05 N Party3
-06 S 10
-07 I Party1
-08 S 10
