@@ -20,13 +20,13 @@ interface
         tPosL = ^tNode;
         tList = tPosL;
 
-		tPartyName = string;
+	tPartyName = string;
         tNumVotes = integer;
 
         tItem = record
-					partyname: tPartyName;
+		    partyname: tPartyName;
                     numvotes: tNumVotes;
-				end;
+      		end;
 
         tNode = record
                     item: tItem;
@@ -102,31 +102,34 @@ implementation
 	
 	function isEmptyList (L: tList):boolean;
 	begin
-		isEmptyList := (L = NULL);
+		isEmptyList := (L = NULL);   
 	end;
 
 	function first(L: tList): tPosL;
 	begin
-		first := L;
+		first := L;    
 	end;
 	
 	function last(L: tList):tPosL;
 	var p:tPosL;
 	begin
 		p:=L;
-		while (p^.nxt <> NULL) do
+		while (p^.nxt <> NULL) do (*Itera sobre la lista hasta que el siguiente puntero a p apunte a NULL*)
 			p:= p^.nxt;
-		last:=p;
+	   last:=p;  (*p sale del bucle siendo el puntero que apunta al último nodo*)
 	end;
 	
 	function previous (p: tPosL; L: tList): tPosL;
+	var
+	   q : tPosL;
 	begin
-		if p=L then previous:=NULL
+		if p=L then previous:=NULL   (*Ya es el primero*)
 		else
 		begin
-			while (p^.nxt <> p) do
-				p:= p^.nxt;
-			previous:= p;
+		        q := L;
+		        while (q^.nxt <> p) do (*El bucle se detiene cuando el siguiente puntero es p*)
+				q:= q^.nxt;
+			previous:= q;
 		end;
 	end;
 
@@ -139,7 +142,7 @@ implementation
 	begin
 		newnode := NULL;
 		new(newnode);
-		if newnode <> NULL then begin
+		if newnode <> NULL then begin  
 			newnode^.item := d;
 			newnode^.nxt := NULL;
 		end
@@ -148,21 +151,23 @@ implementation
 	function insertItem(d: tItem; p: tPosL; var L: tList): boolean;
 		var newnode,q: tPosL;
 		begin
-			createnode(newnode, d);
+			createnode(newnode, d);  (*-=-=-=-=-*)
 			if newnode = NULL then insertItem:=FALSE
 			else
 			begin
 				if L = NULL then
                     L:= newnode
 				else 
-                    if p = NULL then
+                    if p = NULL then  (*Posición no especificada*)  
 				        begin
 				        	q:= L;
 				        	while q^.nxt <> NULL do
 				        		q:= q^.nxt;
 				        	q^.nxt := newnode
 				        end
-				    else
+				    else  (*Intercambio de información entre nodos para mantener el orden solicitado
+					      (>pre>old(pos)>nex> a >pre>old(new info)>new(old info)>nex>)
+					   *)
 				        begin
 				        	newnode^.item := p^.item;
 				        	p^.item := d;
@@ -176,10 +181,10 @@ implementation
     procedure deleteAtPosition(p:tPosL; var L:tList);
     	var q:tPosL;
     	begin
-    		if p = first(L) then
+    		if p = first(L) then (*Recorta el primer elemento*)
     			L:=L^.nxt
-    		else if p^.nxt = NULL then
-                begin
+    		else if p^.nxt = NULL then (*Recorta el último elemento*)
+                begin                      
     			    q:= previous(p,L);
     			    q^.nxt := NULL;
                 end
@@ -190,7 +195,7 @@ implementation
     				p^.nxt := q^.nxt;
     				p := q;
     			end;
-    		dispose(p);
+    		dispose(p); (*Desbloquea la memoria reservada*)
     	end;
 		
 	function getitem(p: tPosL; L: tList):tItem;
@@ -216,7 +221,7 @@ implementation
 	
 	procedure deleteList(var L:tList);
 	begin
-		while (L<> NULL) do
+		while (L<> NULL) do  (*Borra de primero a último*)
 		begin
 			deleteAtPosition(first(L) ,L);
 		end;
