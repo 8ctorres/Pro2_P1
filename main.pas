@@ -34,6 +34,9 @@ end;
 (**********************************************************)
 
 procedure Stats(partyOrVoters:string; var List:tList);
+(*
+
+*)
 var
 pos: tPosL;
 item: tItem;
