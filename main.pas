@@ -1,6 +1,12 @@
-Uses sysutils, StaticList;
-
-
+Uses sysutils, DynamicList;
+{
+	TITLE: PROGRAMMING II LABS
+	SUBTITLE: Practical 1
+	AUTHOR 1: Carlos Torres Paz LOGIN 1: carlos.torres@udc.es
+	AUTHOR 2: Daniel Sergio Vega Rodriguez LOGIN 2: d.s.vega@udc.es
+	GROUP: 5.4
+	DATE: 22/02/2019
+}
 
 procedure Pnew(partyOrVoters:string; var List:tList);
 (*
@@ -106,6 +112,20 @@ begin
       writeln('* Illegalize: party ',partyOrVoters);
    end;
 end;
+
+(**********************************************************)
+
+procedure disposeAll(list : tList);
+var
+   p : tPosL;
+   
+begin
+   p :=  first(list);
+   if not(isEmptyList(list)) then 
+      while p <> NULL do deleteAtPosition(p,list);
+   if isEmptyList(list) then writeln('Sta Bien');
+end;
+
 (**********************************************************)
 
 procedure readTasks(filename:string);
@@ -119,7 +139,7 @@ VAR
 
    List: tList; (*A list that holds all the data (names of parties and their number of votes)*)
    totalvotes: tNumVotes; (*A variable that holds the total number of votes*)
-   
+ 
 
 BEGIN
    {process the operation file named filename}
@@ -175,10 +195,15 @@ BEGIN
                end;
          otherwise
       end;
-
    
   END;
+   
    Close(usersFile);
+
+   writeln('LOL');
+   readln;
+   
+   disposeAll(List);
 
 END;
 
@@ -189,5 +214,6 @@ BEGIN
 	if (paramCount>0) then
 		readTasks(ParamStr(1))
 	else
-		readTasks('new.txt');
+	   readTasks('new.txt');
+
 END.
