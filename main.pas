@@ -1,4 +1,4 @@
-Uses sysutils, StaticList;
+Uses sysutils, DynamicList;
 {
 	TITLE: PROGRAMMING II LABS
 	SUBTITLE: Practical 1
@@ -13,7 +13,7 @@ procedure Pnew(partyOrVoters:string; var List:tList);
 Goal: Creates a new political party on the list
 Input: The name of the new party and the list of parties
 Output: The list with the new party added
-Precondition : The list has been created
+Precondition : The list has to be non-empty
 Postcondition: If the party already exists, the list remains unchanged and an error message is printed out to the console
 *)
 var d:tItem;
@@ -31,7 +31,7 @@ procedure Vote(partyOrVoters: string; var totalvotes: tNumVotes;var List: tList)
 Goal: Adds an specified amount of votes to the given political party
 Inputs: The name of the party and the list of parties
 Output: The list with the added vote to the party
-Precondition : The list has been created
+Precondition : The list has to be non-empty
 Postcondition: If the especified party does not exist on the list, the list remains unchanged and an error message is printed out to the console
 *)
 var
@@ -122,17 +122,9 @@ var
 begin
    p :=  first(list);
    writeln('DEBUG');
-   if not(isEmptyList(list)) then begin
-      writeln(list.fin);
-      while p <> NULL do begin
+   while not isemptylist(list) do
 	 deleteAtPosition(p,list);
-	 writeln(p);
-	 p := next(p,list);
-	 writeln(p);
-      end;
-   end;
    writeln('HE');
-   readln;
    if isEmptyList(list) then writeln('Sta Bien');
 end;
 
@@ -183,31 +175,37 @@ BEGIN
       case task[1] of
          'N': begin 
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Pnew(partyOrVoters,List);
                end;
 
          'V': begin
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Vote(partyOrVoters,totalvotes,List);
                end;
          'S': begin
                writeln(code, ' ',task, ': totalvoters ', partyOrVoters);
+               writeln;
                Stats(partyOrVoters,totalvotes,List);
                end;
          'I': begin
                writeln(code, ' ',task, ': party ', partyOrVoters);
+               writeln;
                Illegalize(partyOrVoters,List);
 
                end;
          otherwise
       end;
-
-      writeln;
    
   END;
    
-   // disposeAll(List);
    Close(usersFile);
+
+   writeln('LOL');
+   readln;
+   
+   disposeAll(List);
 
 END;
 

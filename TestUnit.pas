@@ -14,8 +14,8 @@ begin
       p := first(L);
       while p <> NULL do
       begin
-      d:=getItem(p,L);
-		write(' ',d.partyName,' numVotes ',d.numVotes);
+	 d:=getItem(p,L);
+	 write(' ',d.partyName,' numVotes ',d.numVotes);
 	 p := next(p, L)
       end;
    end;
@@ -23,9 +23,10 @@ begin
 end; { print_list_i }
 
 
-var l:tList;
-    p:tPosL;
-    d,d1: tItem;
+var l	 : tList;
+    p,a	 : tPosL;
+    d,d1 : tItem;
+   i	 : integer;
 
 begin
 
@@ -63,6 +64,18 @@ begin
 
     if p = NULL then writeln('party33 Not found');
 
+    (**)
+   writeln('WAT');
+   readln;
+   print_list(l);
+   a := first(l);
+   readln;
+   writeln('LOL :',first(l),'  ',last(l));
+   while not isemptylist(l) do begin
+      deleteatposition(first(l),l);
+      print_list(l);
+   end;
+   (*
     p := findItem('party3', l);
 
 	d := getItem(p, l);
@@ -101,5 +114,5 @@ begin
     print_list(l);
     insertItem(d1, NULL, l);
     print_list(l);
-
+*)
 end.
