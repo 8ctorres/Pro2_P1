@@ -1,4 +1,4 @@
-Uses sysutils, DynamicList;
+Uses sysutils, StaticList;
 {
 	TITLE: PROGRAMMING II LABS
 	SUBTITLE: Practical 1
@@ -115,14 +115,24 @@ end;
 
 (**********************************************************)
 
-procedure disposeAll(list : tList);
+procedure disposeAll(var list : tList);
 var
    p : tPosL;
    
 begin
    p :=  first(list);
-   if not(isEmptyList(list)) then 
-      while p <> NULL do deleteAtPosition(p,list);
+   writeln('DEBUG');
+   if not(isEmptyList(list)) then begin
+      writeln(list.fin);
+      while p <> NULL do begin
+	 deleteAtPosition(p,list);
+	 writeln(p);
+	 p := next(p,list);
+	 writeln(p);
+      end;
+   end;
+   writeln('HE');
+   readln;
    if isEmptyList(list) then writeln('Sta Bien');
 end;
 
