@@ -120,12 +120,11 @@ var
    p : tPosL;
    
 begin
-   p :=  first(list);
-   writeln('DEBUG');
-   while not isemptylist(list) do
+   while not(isemptylist(list)) do
+      begin
+	 p := first(list);
 	 deleteAtPosition(p,list);
-   writeln('HE');
-   if isEmptyList(list) then writeln('Sta Bien');
+      end;
 end;
 
 (**********************************************************)
@@ -201,12 +200,8 @@ BEGIN
   END;
    
    Close(usersFile);
-
-   writeln('LOL');
-   readln;
    
    disposeAll(List);
-
 END;
 
 (**********************************************************)
