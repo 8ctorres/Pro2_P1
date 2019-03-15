@@ -70,24 +70,16 @@ item: tItem; (*<^ Both used for iterate around the list*)
 totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
    totalvalidvotes:= 0;
-
    totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes; (*The conjugated function call returns the number of votes that belong to NULL*)
-
-   pos:= first(List);
-   item := getItem(pos,List);
-   if totalvalidvotes=0 then totalvalidvotes:=1; (*This is to avoid dividing by zero in the next line. The division returns 0 because item.numvotes = 0 for all parties*)
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTE*)
-
-   pos:= next(pos,List);
-   item := getItem(pos,List);
-
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTE*)
-
-   pos:= next(pos,List);
-
+   if totalvalidvotes = 0 then totalvalidvotes :=1;
+   (*----List Loop----*)
+   pos := first(List);
    while pos<>NULL do begin
       item:= getItem(pos,List);
-      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints all parties on the list*)
+      if item.partyname <> NULLVOTE then
+         writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)') (*Prints all parties on the list*)
+      else
+         writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0); (*Null votes without percentage*)
       pos:= next(pos,List);
    end;
    writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
