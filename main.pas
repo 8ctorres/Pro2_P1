@@ -35,7 +35,7 @@ Precondition : The list has to be initialized
 Postcondition: If the especified party does not exist on the list, the list remains unchanged and an error message is printed out to the console
 *)
 var
-pos: tPosL;       (*Used for store the pos of the party (or null)*)
+pos: tPosL;       (*Used to store the pos of the party (or null)*)
 nvotes:tNumVotes; (*Used to hold the new value of votes before update*)
 begin
    totalvotes:= totalvotes+1;
@@ -66,7 +66,7 @@ Postcondition: If totalvotes is higher than total census, returns an error
 *)
 var
 pos: tPosL;
-item: tItem; (*<^ Both used for iterate around the list*)
+item: tItem; (*Both used to iterate around the list*)
 totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
    if totalvotes > strToInt(partyOrVoters) then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
@@ -102,17 +102,18 @@ procedure illegalize(partyOrVoters : string; var List : tList);
  Goal: Deletes the party from the list both designated as parameters;
  Inputs: The name of the party needed to be deleted and the list where it belongs.
  Outputs: The previous list without the illegalized party.
+ Precondition: The list must be initialized
  Poscondition: If the party is not in the list or the list is empty or the input is not a valid party illegalize will not
- modify the list. In this cases illegalize prints an error message.
+ modify the list. In this case it prints an error message.
  *)
 var
-   pos : tPosL;   (*Used for store the position of the input party*)
-   pnull: tPosL;  (*Used for store the position of NULLVOTE*)
-   votesNull : tNumVotes;  (*Used for store values between operations 115:117*)
+   pos : tPosL;   (*Used to store the position of the input party*)
+   pnull: tPosL;  (*Used to store the position of NULLVOTE*)
+   votesNull : tNumVotes;  (*Used to store values between operations 115:117*)
 begin
    pos := findItem(partyOrVoters,List);
-   if (partyOrVoters = NULLVOTE) or (partyOrVoters = BLANKVOTE) or (pos = NULL) then writeln('+ Error: Illegalize not possible')
-   else begin   (*^^ Checks if the party is avaliable to delete ^^*)
+   if (partyOrVoters = NULLVOTE) or (partyOrVoters = BLANKVOTE) or (pos = NULL) then writeln('+ Error: Illegalize not possible') (*Checks if the party is avaliable to delete*)
+   else begin
       pNull := findItem(NULLVOTE,List);
       votesNull := getItem(pNull,List).numvotes;
       votesNull := votesNull + getItem(findItem(partyOrVoters,List),List).numvotes;  (*Sums nullvotes and the votes of the party *)
@@ -126,12 +127,12 @@ end;
 
 procedure disposeAll(var list : tList);
 (*
- Goal: clears the data stored in a list making it empty;
- Input: the list to be cleared;
- Output: the previous list with no elements;
+ Goal: Clears the data stored in a list making it empty;
+ Input: The list to be cleared;
+ Output: The previous list with no elements;
  *)
 begin
-   while not(isEmptyList(list)) do (*This loop deletes all elements from the first to the last*)
+   while not(isEmptyList(list)) do (*This loop deletes all elements from the first*)
          deleteAtPosition(first(list),list);
 end;
 
