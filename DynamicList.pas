@@ -135,10 +135,7 @@ implementation
 
 	function next(p: tPosL; L:tList):tPosL;
 	begin
-	   if p <> NULL then
-		next := p^.nxt
-	   else
-	      next := NULL;
+	   next := p^.nxt
 	end;
 	
 	procedure createnode(var newnode: tPosL; d:tItem); (*Funcion auxiliar de insertItem*)

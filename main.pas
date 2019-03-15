@@ -13,10 +13,10 @@ procedure Pnew(partyOrVoters:string; var List:tList);
 Goal: Creates a new political party on the list
 Input: The name of the new party and the list of parties
 Output: The list with the new party added
-Precondition : The list has to be non-empty
+Precondition : The list has to be initialized
 Postcondition: If the party already exists, the list remains unchanged and an error message is printed out to the console
 *)
-var d:tItem;  (*This var. is used to fill the node values before the insertion*)
+var d:tItem;  (*This variable is used to store the name and votes before the insertion*)
 begin
    d.partyname := partyOrVoters;
    d.numvotes := 0;
@@ -31,20 +31,19 @@ procedure Vote(partyOrVoters: string; var totalvotes: tNumVotes;var List: tList)
 Goal: Adds an specified amount of votes to the given political party
 Inputs: The name of the party and the list of parties
 Output: The list with the added vote to the party
-Precondition : The list has to be non-empty
+Precondition : The list has to be initialized
 Postcondition: If the especified party does not exist on the list, the list remains unchanged and an error message is printed out to the console
 *)
 var
-pos: tPosL;      (*Used for store the pos of the party (or null) *)
-nvotes:tNumVotes; (*Used to hold the new value of votes before update *)
+pos: tPosL;       (*Used for store the pos of the party (or null)*)
+nvotes:tNumVotes; (*Used to hold the new value of votes before update*)
 begin
    totalvotes:= totalvotes+1;
    pos := findItem(partyOrVoters,List);
    if pos=NULL then begin
       writeln('+ Error: Vote not possible. Party ',partyOrVoters,' not found. NULLVOTE');
       pos:= findItem(NULLVOTE,List);
-      nvotes := getItem(pos,List).numvotes;
-      nvotes:= nvotes+1;
+      nvotes := getItem(pos,List).numvotes +1;
       updateVotes(nvotes,pos,List);
       end
    else begin
@@ -62,35 +61,38 @@ procedure Stats(partyOrVoters:string; var totalvotes:tNumVotes; var List:tList);
 Goal: Outputs statistics of the votes. Shows a count of blank votes, null votes, votes for each party and participation in %
 Inputs: Total number of voters in the electoral list, and the List with Parties and number of votes
 Output: Does not modify anything, just writes the statistics to the console
-Precondition: Parties BLANKVOTE (B) and NULLVOTE (N) must exist
+Precondition: The list must be initialized and parties BLANKVOTE (B) and NULLVOTE (N) must exist
 *)
 var
 pos: tPosL;
 item: tItem; (*<^ Both used for iterate around the list*)
 totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
-   totalvalidvotes:= 0;
+   if totalvotes > partyOrVoters then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
+   else begin
+      totalvalidvotes:= 0;
 
-   totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes; (*The conjugated function call returns the number of votes that belong to NULL*)
+      totalvalidvotes := totalvotes - getItem(findItem(NULLVOTE,List),List).numvotes; (*The conjugated function call returns the number of votes that belong to NULL*)
 
-   pos:= first(List);
-   item := getItem(pos,List);
-   if totalvalidvotes=0 then totalvalidvotes:=1; (*This is to avoid dividing by zero in the next line. The division returns 0 because item.numvotes = 0 for all parties*)
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTE*)
+      pos:= first(List);
+      item := getItem(pos,List);
+      if totalvalidvotes=0 then totalvalidvotes:=1; (*This is to avoid dividing by zero in the next line. The division returns 0 because item.numvotes = 0 for all parties*)
+      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints BLANKVOTE*)
 
-   pos:= next(pos,List);
-   item := getItem(pos,List);
-
-   writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTE*)
-
-   pos:= next(pos,List);
-
-   while pos<>NULL do begin
-      item:= getItem(pos,List);
-      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints all parties on the list*)
       pos:= next(pos,List);
+      item := getItem(pos,List);
+
+      writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0);(*Prints NULLVOTE*)
+
+      pos:= next(pos,List);
+
+      while pos<>NULL do begin
+         item:= getItem(pos,List);
+         writeln('Party ',item.partyname, ' numvotes ', item.numvotes:0, ' (', (item.numvotes*100/totalvalidvotes):2:2, '%)'); (*Prints all parties on the list*)
+         pos:= next(pos,List);
+      end;
+      writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
    end;
-   writeln('Participation: ', totalvotes:0, ' votes from ',partyOrVoters, ' voters (', (totalvotes*100/StrToInt(partyOrVoters)):2:2 ,'%)')
 end;
 
 (**********************************************************)
@@ -129,9 +131,7 @@ procedure disposeAll(var list : tList);
  *)
 begin
    while not(isEmptyList(list)) do (*This loop deletes all elements from the first to the last*)
-      begin
          deleteAtPosition(first(list),list);
-      end;
 end;
 
 (**********************************************************)
