@@ -141,8 +141,8 @@ implementation
 	procedure createnode(var newnode: tPosL; d:tItem); (*Funcion auxiliar de insertItem*)
 	begin
 		newnode := NULL;
-		new(newnode);
-		if newnode <> NULL then begin  
+		new(newnode);  (*Crea el nuevo nodo y le asigna los datos en caso haber sido inizializado*)
+		if newnode <> NULL then begin 
 			newnode^.item := d;
 			newnode^.nxt := NULL;
 		end
@@ -158,12 +158,12 @@ implementation
 				if L = NULL then
                     L:= newnode
 				else 
-                    if p = NULL then  (*Posición no especificada*)  
+            if p = NULL then  (*Posición no especificada*)  
 				        begin
 				        	q:= L;
-				        	while q^.nxt <> NULL do
+				        	while q^.nxt <> NULL do (*Itera hasta encontrar la última posición y inserta el nuevo nodo*)
 				        		q:= q^.nxt;
-				        	q^.nxt := newnode
+				        	  q^.nxt := newnode
 				        end
 				    else  (*Intercambio de información entre nodos para mantener el orden solicitado
 					      (>pre>old(pos)>nex> a >pre>old(new info)>new(old info)>nex>)
@@ -185,15 +185,15 @@ implementation
     			L:=L^.nxt
     		else if p^.nxt = NULL then (*Recorta el último elemento*)
                 begin                      
-    			    q:= previous(p,L);
-    			    q^.nxt := NULL;
+    			        q:= previous(p,L);
+    			        q^.nxt := NULL;
                 end
             else
-    			begin 
-    				q:= p^.nxt;
-    				p^.item := q^.item;
-    				p^.nxt := q^.nxt;
-    				p := q;
+          begin (* Proceso de eliminación del nodo en una posición intermedia *)
+    				q:= p^.nxt;  (*q = nodo siguiente a p*)
+    				p^.item := q^.item;  (* Se almacena la informacion de q en p *)
+             p^.nxt := q^.nxt; (*Se enlaza p.nxt al siguiente de q*)
+    				p := q; (*P ahora apunta al nodo que va a desaparecer*)
     			end;
     		dispose(p); (*Desbloquea la memoria reservada*)
     	end;
