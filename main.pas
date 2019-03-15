@@ -69,7 +69,7 @@ pos: tPosL;
 item: tItem; (*<^ Both used for iterate around the list*)
 totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
-   if totalvotes > partyOrVoters then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
+   if totalvotes > strToInt(partyOrVoters) then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
    else begin
       totalvalidvotes:= 0;
 
