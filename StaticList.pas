@@ -135,12 +135,12 @@ implementation
 		var
 			i: tPosL;
 		begin
-			if L.fin = MAX then
+			if L.fin = MAX then (*Se controla si el array está lleno*)
 				insertItem:= FALSE
 			else
 				begin
 					L.fin:= L.fin+1;
-					if p=NULL then
+					if p=NULL then (*Si p=NULL, se inserta al final*)
 						L.data[L.fin]:= d
 					else
 						begin
@@ -155,8 +155,8 @@ implementation
 			var i: tPosL;
 			begin
 				L.fin := L.fin -1;
-				for i:= p to L.fin do
-					L.data[i] := L.data[i+1];
+				for i:= p to L.fin do (*Se mueven todos los elementos siguientes a p una posición hacia atrás*)
+					L.data[i] := L.data[i+1]; 
 			end;
 			
 		function getItem (p: tPosL; L: tList): tItem;
@@ -173,15 +173,15 @@ implementation
 		function findItem (d: tPartyName; L: tList): tPosL;
 			var i: tPosL;
 			begin
-				if isEmptyList(L) then
+				if isEmptyList(L) then (*Se controla si la lista está vacía*)
 					findItem:= NULL
 				else
 					i:=1;
-					while (i < L.fin) and (L.data[i].partyname <> d) do
+					while (i < L.fin) and (L.data[i].partyname <> d) do (*Se recorre la lista buscando el elemento y se sale del bucle cuando se lega al final o se encuentra*)
 						i:= i+1;
 					if d = L.data[i].partyname then
-						findItem:=i
+						findItem:=i (*Si se encuentra, se devuelve la posición*)
 					else
-						findItem := NULL;
+						findItem := NULL; (*Si se llega al final de la lista sin encontrarlo, se devuelve NULL*)
 		end;
 end.

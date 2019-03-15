@@ -62,13 +62,14 @@ Goal: Outputs statistics of the votes. Shows a count of blank votes, null votes,
 Inputs: Total number of voters in the electoral list, and the List with Parties and number of votes
 Output: Does not modify anything, just writes the statistics to the console
 Precondition: The list must be initialized and parties BLANKVOTE (B) and NULLVOTE (N) must exist
+Postcondition: If totalvotes is higher than total census, returns an error
 *)
 var
 pos: tPosL;
 item: tItem; (*<^ Both used for iterate around the list*)
 totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
-   if totalvotes > partyOrVoters then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
+   if totalvotes > strToInt(partyOrVoters) then writeln('+ Error: Stats not possible') (*Checks if the total number of voters is higher than the total census, which would give a participacion higher than 100%, and outputs an error message*)
    else begin
       totalvalidvotes:= 0;
 
