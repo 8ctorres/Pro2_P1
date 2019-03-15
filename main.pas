@@ -62,6 +62,7 @@ Goal: Outputs statistics of the votes. Shows a count of blank votes, null votes,
 Inputs: Total number of voters in the electoral list, and the List with Parties and number of votes
 Output: Does not modify anything, just writes the statistics to the console
 Precondition: The list must be initialized and parties BLANKVOTE (B) and NULLVOTE (N) must exist
+Postcondition: If totalvotes is higher than total census, returns an error
 *)
 var
 pos: tPosL;
