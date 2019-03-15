@@ -141,7 +141,7 @@ implementation
 	      next := NULL;
 	end;
 	
-	procedure createnode(var newnode: tPosL; d:tItem); (*Helper function por insertItem*)
+	procedure createnode(var newnode: tPosL; d:tItem); (*Funcion auxiliar de insertItem*)
 	begin
 		newnode := NULL;
 		new(newnode);
@@ -154,7 +154,7 @@ implementation
 	function insertItem(d: tItem; p: tPosL; var L: tList): boolean;
 		var newnode,q: tPosL;
 		begin
-			createnode(newnode, d);  (*-=-=-=-=-*)
+			createnode(newnode, d);
 			if newnode = NULL then insertItem:=FALSE
 			else
 			begin
@@ -192,7 +192,7 @@ implementation
     			    q^.nxt := NULL;
                 end
             else
-    			begin
+    			begin 
     				q:= p^.nxt;
     				p^.item := q^.item;
     				p^.nxt := q^.nxt;

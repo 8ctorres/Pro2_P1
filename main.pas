@@ -16,7 +16,7 @@ Output: The list with the new party added
 Precondition : The list has to be non-empty
 Postcondition: If the party already exists, the list remains unchanged and an error message is printed out to the console
 *)
-var d:tItem;
+var d:tItem;  (*This var. is used to fill the node values before the insertion*)
 begin
    d.partyname := partyOrVoters;
    d.numvotes := 0;
@@ -35,8 +35,8 @@ Precondition : The list has to be non-empty
 Postcondition: If the especified party does not exist on the list, the list remains unchanged and an error message is printed out to the console
 *)
 var
-pos: tPosL;
-nvotes:tNumVotes;
+pos: tPosL;      (*Used for store the pos of the party (or null) *)
+nvotes:tNumVotes; (*Used to hold the new value of votes before update *)
 begin
    totalvotes:= totalvotes+1;
    pos := findItem(partyOrVoters,List);
@@ -66,8 +66,8 @@ Precondition: Parties BLANKVOTE (B) and NULLVOTE (N) must exist
 *)
 var
 pos: tPosL;
-item: tItem;
-totalvalidvotes: tNumVotes;
+item: tItem; (*<^ Both used for iterate around the list*)
+totalvalidvotes: tNumVotes; (*Keeps the number of votes that are not null*)
 begin
    totalvalidvotes:= 0;
    pos:= first(List);
@@ -104,9 +104,9 @@ procedure illegalize(partyOrVoters : string; var List : tList);
  modify the list. In this cases illegalize prints an error message.
  *)
 var
-   pos : tPosL;
-   pnull: tPosL;
-   votesNull : tNumVotes;
+   pos : tPosL;   (*Used for store the position of the input party*)
+   pnull: tPosL;  (*Used for store the position of NULLVOTE*)
+   votesNull : tNumVotes;  (*Used for store values between operations 115:117*)
 begin
    pos := findItem(partyOrVoters,List);
    if (partyOrVoters = NULLVOTE) or (partyOrVoters = BLANKVOTE) or (pos = NULL) then writeln('+ Error: Illegalize not possible')
@@ -128,14 +128,10 @@ procedure disposeAll(var list : tList);
  Input: the list to be cleared;
  Output: the previous list with no elements;
  *)
-var
-   p : tPosL;
-
 begin
    while not(isEmptyList(list)) do (*This loop deletes all elements from the first to the last*)
       begin
-         p := first(list);
-         deleteAtPosition(p,list);
+         deleteAtPosition(first(list),list);
       end;
 end;
 
