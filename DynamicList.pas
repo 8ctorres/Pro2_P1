@@ -192,7 +192,7 @@ implementation
           begin (* Proceso de eliminación del nodo en una posición intermedia *)
     				q:= p^.nxt;  (*q = nodo siguiente a p*)
     				p^.item := q^.item;  (* Se almacena la informacion de q en p *)
-             p^.nxt := q^.nxt; (*Se enlaza p.nxt al siguiente de q*)
+            p^.nxt := q^.nxt; (*Se enlaza p.nxt al siguiente de q*)
     				p := q; (*P ahora apunta al nodo que va a desaparecer*)
     			end;
     		dispose(p); (*Desbloquea la memoria reservada*)
